@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="common-board">
     <TheTabs />
     <div v-if="$fetchState.pending">
       <content-placeholders
@@ -12,7 +12,7 @@
     </div>
     <div v-if="$fetchState.error">An Error Occured...</div>
     <div v-else class="posts">
-      <PostItem v-for="item in list" :key="item.id" v-bind="item" />
+      <TopicItem v-for="item in list" :key="item.id" v-bind="item" />
     </div>
     <ThePagination />
   </div>

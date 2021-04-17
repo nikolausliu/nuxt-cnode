@@ -1,20 +1,18 @@
 <template>
-  <div class="post-item">
+  <div class="topic-item">
     <template v-if="pending"> </template>
     <template v-else>
       <img :src="author.avatar_url" alt="avatar" class="avatar" />
       <div class="right">
-        <NuxtLink class="title" :to="`/topic/${id}`">{{ title }}</NuxtLink>
+        <a class="title" :href="`/topic/${id}`">{{ title }}</a>
         <div class="info">
-          <div class="tag">{{ tab | tag }}</div>
-          <div class="divider">·</div>
-          <NuxtLink class="info-item link" :to="`/user/${author.loginname}`">{{
-            author.loginname
-          }}</NuxtLink>
-          <div class="divider">·</div>
-          <div class="info-item">{{ replyCount }}/{{ visitCount }}</div>
-          <div class="divider">·</div>
-          <div class="info-item">{{ lastReplyAt | timeago }}</div>
+          <span class="tag">{{ tab | tag }}</span>
+          <span>·</span>
+          <NuxtLink :to="`/user/${author.loginname}`">{{ author.loginname }}</NuxtLink>
+          <span>·</span>
+          <span>{{ replyCount }}/{{ visitCount }}</span>
+          <span>·</span>
+          <span>{{ lastReplyAt | timeago }}</span>
         </div>
       </div>
     </template>
@@ -84,7 +82,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.post-item {
+.topic-item {
   display: flex;
   padding: 10px;
   border-bottom: 1px solid #eee;
@@ -98,22 +96,16 @@ export default {
     .title {
       line-height: 26px;
       margin-bottom: 2px;
-      color: #666;
-      text-decoration: none;
-      &:hover {
-        color: #333;
-        text-decoration: underline;
-      }
     }
     .info {
-      display: flex;
-      align-items: center;
+      // display: flex;
+      // align-items: center;
       height: 20px;
       font-size: 12px;
       color: #ccc;
-      .divider {
-        padding: 0 5px;
-      }
+      // .divider {
+      //   padding: 0 5px;
+      // }
       .tag {
         padding: 4px;
         line-height: 12px;
@@ -121,14 +113,14 @@ export default {
         background-color: #f5f5f5;
         color: #999;
       }
-      .link {
-        color: #778087;
-        text-decoration: none;
-        &:hover {
-          color: #4d5256;
-          text-decoration: underline;
-        }
-      }
+      // .link {
+      //   color: #778087;
+      //   text-decoration: none;
+      //   &:hover {
+      //     color: #4d5256;
+      //     text-decoration: underline;
+      //   }
+      // }
     }
   }
 }
