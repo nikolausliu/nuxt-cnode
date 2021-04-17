@@ -4,7 +4,7 @@
     <template v-else>
       <img :src="author.avatar_url" alt="avatar" class="avatar" />
       <div class="right">
-        <div class="title">{{ title }}</div>
+        <NuxtLink class="title" :to="`/topic/${id}`">{{ title }}</NuxtLink>
         <div class="info">
           <div class="tag">{{ tab | tag }}</div>
           <div class="divider">·</div>
@@ -15,8 +15,6 @@
           <div class="info-item">{{ replyCount }}/{{ visitCount }}</div>
           <div class="divider">·</div>
           <div class="info-item">{{ lastReplyAt | timeago }}</div>
-          <!-- <div class="divider">·</div> -->
-          <!-- <div class="info-item">最后回复来自{{  }}</div> -->
         </div>
       </div>
     </template>
@@ -99,16 +97,29 @@ export default {
   .right {
     .title {
       line-height: 26px;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
+      color: #666;
+      text-decoration: none;
+      &:hover {
+        color: #333;
+        text-decoration: underline;
+      }
     }
     .info {
       display: flex;
       align-items: center;
-      height: 18px;
+      height: 20px;
       font-size: 12px;
       color: #ccc;
       .divider {
         padding: 0 5px;
+      }
+      .tag {
+        padding: 4px;
+        line-height: 12px;
+        border-radius: 2px;
+        background-color: #f5f5f5;
+        color: #999;
       }
       .link {
         color: #778087;

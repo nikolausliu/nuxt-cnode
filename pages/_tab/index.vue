@@ -1,5 +1,6 @@
 <template>
   <div>
+    <TheTabs />
     <div v-if="$fetchState.pending">
       <content-placeholders
         v-for="item in 20"
@@ -13,6 +14,7 @@
     <div v-else class="posts">
       <PostItem v-for="item in list" :key="item.id" v-bind="item" />
     </div>
+    <ThePagination />
   </div>
 </template>
 
@@ -20,35 +22,16 @@
 import { getTopics } from '@/api'
 import { obj2CamelCase } from '@/utils'
 export default {
-  // async asyncData({ $axios, params, query }) {
-  //   const { tab } = params
-  //   const { page = 1 } = query
-  //   console.log(tab, page)
-  //   try {
-  //     const res = await getTopics($axios, { tab, page })
-  //     console.log('res', res)
-  //     return {
-  //       list: res.data.data,
-  //     }
-  //   } catch (e) {
-  //     console.log(e)`
-  //   }
-  // },
   data() {
     return {
       list: [],
     }
   },
   async fetch() {
-    let { tab } = this.$route.params
+    const { tab } = this.$route.params
     const { page = 1 } = this.$route.query
-    if (tab === 'all') {
-      tab = ''
-    }
-    console.log('tab', tab, page)
     try {
       const res = await getTopics(this.$axios, { tab, page })
-      // console.log('res', res)
       this.list = res.data.data.map((item) => {
         return obj2CamelCase(item)
       })
