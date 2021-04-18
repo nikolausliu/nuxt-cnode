@@ -15,19 +15,19 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-reply:before {
+.icon-reply::before {
   content: "\e875";
 }
 
-.icon-good:before {
+.icon-good::before {
   content: "\e753";
 }
 
-.icon-good-fill:before {
+.icon-good-fill::before {
   content: "\e780";
 }
 
-.icon-Top-fill:before {
+.icon-Top-fill::before {
   content: "\e78f";
 }
 
