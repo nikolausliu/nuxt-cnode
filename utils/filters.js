@@ -1,4 +1,4 @@
-import { timeago } from '@/utils/time'
+import { timeago, dateTimeFormat } from '@/utils/time'
 import { tabs } from '@/constant'
 
 const tag = (t) => {
@@ -10,5 +10,6 @@ const tag = (t) => {
 
 export default {
   timeago,
+  dateTimeFormat,
   tag,
 }

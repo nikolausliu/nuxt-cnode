@@ -20,3 +20,15 @@ export const timeago = (time) => {
   }
   return content
 }
+
+export const dateTimeFormat = (time) => {
+  const date = new Date(time)
+  const fixDigits = (n) => (n < 10 ? `0${n}` : n)
+  const year = date.getFullYear()
+  const month = fixDigits(date.getMonth() + 1)
+  const day = fixDigits(date.getDate())
+  const hours = fixDigits(date.getHours())
+  const minutes = fixDigits(date.getMinutes())
+  const seconds = fixDigits(date.getSeconds())
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+}

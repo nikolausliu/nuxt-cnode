@@ -2,20 +2,16 @@
   <header class="header">
     <div class="inner">
       <a class="logo" href="/">
-        <img src="~/assets/imgs/logo.png" alt="logo" />
+        <img src="~/assets/imgs/logo.svg" alt="logo" />
       </a>
     </div>
   </header>
 </template>
 
 <script>
-// import logo from '@/assets/imgs/condejs_light.png'
-// console.log('logo', logo)
 export default {
   data() {
-    return {
-      // logo,
-    }
+    return {}
   },
 }
 </script>
