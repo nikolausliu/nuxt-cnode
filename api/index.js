@@ -9,3 +9,7 @@ export const getTopicDetail = (axios, id, params) => {
   const query = obj2query(params)
   return axios.get(`/topic/${id}${query}`)
 }
+
+export const getUserInfo = (axios, loginname) => {
+  return axios.get(`/user/${loginname}`)
+}
