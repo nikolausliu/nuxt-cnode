@@ -19,6 +19,7 @@ export default {
 <style lang="less" scoped>
 .header {
   position: fixed;
+  z-index: 999;
   top: 0;
   right: 0;
   left: 0;

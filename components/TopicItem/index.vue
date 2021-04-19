@@ -2,17 +2,36 @@
   <div class="topic-item">
     <template v-if="pending"> </template>
     <template v-else>
-      <img :src="author.avatar_url" alt="avatar" class="avatar" />
+      <a :href="`/user/${author.loginname}`" class="avatar">
+        <!-- <img :src="author.avatar_url" alt="avatar" /> -->
+        <!-- <el-image :src="author.avatar_url" class="img">
+          <div slot="error" class="img-error">
+            <i class="el-icon-picture-outline"></i>
+          </div>
+        </el-image> -->
+        <BaseImage :src="author.avatar_url" :img-style="{ borderRadius: '4px' }" />
+      </a>
       <div class="right">
-        <a class="title" :href="`/topic/${id}`">{{ title }}</a>
+        <a class="title" :href="`/topic/${id}`">
+          <span v-if="top" class="tag tag-top">置顶</span
+          ><span v-if="good" class="tag tag-good">精华</span>{{ title }}
+        </a>
         <div class="info">
-          <span class="tag">{{ tab | tag }}</span>
-          <span>·</span>
-          <NuxtLink :to="`/user/${author.loginname}`">{{ author.loginname }}</NuxtLink>
-          <span>·</span>
-          <span>{{ replyCount }}/{{ visitCount }}</span>
-          <span>·</span>
-          <span>{{ lastReplyAt | timeago }}</span>
+          <template v-if="tab">
+            <span class="tag">{{ tab | tag }}</span>
+            <span>·</span>
+          </template>
+          <template v-if="author.loginname">
+            <NuxtLink :to="`/user/${author.loginname}`">{{ author.loginname }}</NuxtLink>
+            <span>·</span>
+          </template>
+          <template v-if="visitCount">
+            <span>{{ replyCount }}/{{ visitCount }}</span>
+            <span>·</span>
+          </template>
+          <template v-if="lastReplyAt">
+            <span>最后回复于{{ lastReplyAt | timeago }}</span>
+          </template>
         </div>
       </div>
     </template>
@@ -87,25 +106,42 @@ export default {
   padding: 10px;
   border-bottom: 1px solid #eee;
   .avatar {
+    margin-right: 10px;
     width: 48px;
     height: 48px;
-    margin-right: 10px;
-    border-radius: 4px;
+    .img {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      &-error {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
   .right {
     .title {
+      display: flex;
+      align-items: center;
       line-height: 26px;
       margin-bottom: 2px;
+      .tag {
+        padding: 4px;
+        line-height: 12px;
+        font-size: 12px;
+        border-radius: 2px;
+        margin-right: 5px;
+        background: #334;
+        color: #fff;
+      }
     }
     .info {
-      // display: flex;
-      // align-items: center;
       height: 20px;
       font-size: 12px;
       color: #ccc;
-      // .divider {
-      //   padding: 0 5px;
-      // }
       .tag {
         padding: 4px;
         line-height: 12px;
@@ -113,14 +149,6 @@ export default {
         background-color: #f5f5f5;
         color: #999;
       }
-      // .link {
-      //   color: #778087;
-      //   text-decoration: none;
-      //   &:hover {
-      //     color: #4d5256;
-      //     text-decoration: underline;
-      //   }
-      // }
     }
   }
 }

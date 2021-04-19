@@ -4,4 +4,5 @@ export const tabs = [
   { title: '分享', tab: 'share' },
   { title: '问答', tab: 'ask' },
   { title: '招聘', tab: 'job' },
+  { title: '测试', tab: 'dev' },
 ]

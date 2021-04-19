@@ -58,7 +58,7 @@
               <a class="replies-item__floor" :href="`#${reply.id}`">{{ replyIndex + 1 }}楼</a>
               <span class="replies-item__time">{{ reply.create_at | timeago }}</span>
               <div class="replies-item__opts">
-                <i class="replies-item__reply iconfont icon-reply"></i>
+                <i class="replies-item__reply iconfont icon-reply-fill"></i>
                 <div class="replies-item__upvote">
                   <i class="iconfont icon-good"></i>
                   <span>{{ reply.ups.length }}</span>
