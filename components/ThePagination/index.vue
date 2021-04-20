@@ -1,9 +1,9 @@
 <template>
   <section class="pagination">
-    <a v-if="!prevDisabled" :href="prev">&lt;上一页</a>
+    <NuxtLink v-if="!prevDisabled" :to="prev">&lt;上一页</NuxtLink>
     <a v-else class="disabled">&lt;上一页</a>
     <span>{{ page }}</span>
-    <a :href="next">下一页&gt;</a>
+    <NuxtLink :to="next">下一页&gt;</NuxtLink>
   </section>
 </template>
 

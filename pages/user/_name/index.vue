@@ -9,21 +9,20 @@
       <div class="profile-item score">积分: {{ info.score }}</div>
       <div class="profile-item created-at">账号创建于: {{ info.create_at | dateTimeFormat }}</div>
       <div class="socials">
-        <a
+        <NuxtLink
           v-if="info.githubUsername"
-          :href="`https://github.com/${info.githubUsername}`"
+          :to="`https://github.com/${info.githubUsername}`"
           target="_blank"
           class="socials-item"
         >
           <i class="iconfont icon-github-fill"></i>
-        </a>
+        </NuxtLink>
       </div>
     </div>
     <div class="activities">
       <div class="topics common-board">
         <div class="topics-header">
           <div class="topics-header__title">最近创建的话题</div>
-          <!-- <a class="topics-header__more">查看更多</a> -->
         </div>
         <template v-if="info.recent_topics.length">
           <TopicItem v-for="topic in info.recent_topics" :key="topic.id" v-bind="topic" />
@@ -33,7 +32,6 @@
       <div class="topics common-board">
         <div class="topics-header">
           <div class="topics-header__title">最近参与的话题</div>
-          <!-- <a class="topics-header__more">查看更多</a> -->
         </div>
         <template v-if="info.recent_replies.length">
           <TopicItem v-for="topic in info.recent_replies" :key="topic.id" v-bind="topic" />

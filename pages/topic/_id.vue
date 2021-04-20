@@ -18,7 +18,7 @@
         <div class="topic-header">
           <div class="topic-title">{{ info.title }}</div>
           <div class="topic-extra">
-            <a :href="`/user/${info.author_id}`">{{ info.author.loginname }}</a>
+            <NuxtLink :to="`/user/${info.author_id}`">{{ info.author.loginname }}</NuxtLink>
             <span>·</span>
             <span>发布于{{ info.create_at | timeago }}</span>
             <span>·</span>
@@ -35,9 +35,9 @@
           <span>·</span>
           <span
             >由
-            <a :href="`/user/${info.replies[info.replies.length - 1].author.loginname}`">{{
+            <NuxtLink :to="`/user/${info.replies[info.replies.length - 1].author.loginname}`">{{
               info.replies[info.replies.length - 1].author.loginname
-            }}</a>
+            }}</NuxtLink>
             最后回复于 {{ info.replies[info.replies.length - 1].create_at | dateTimeFormat }}</span
           >
         </div>
@@ -47,15 +47,17 @@
           :key="reply.id"
           class="replies-item"
         >
-          <a :href="`/user/${reply.author.loginname}`" class="replies-item__avatar">
+          <NuxtLink :to="`/user/${reply.author.loginname}`" class="replies-item__avatar">
             <img :src="reply.author.avatar_url" alt="avatar" />
-          </a>
+          </NuxtLink>
           <div class="replies-item__info">
             <div class="replies-item__top">
-              <a :href="`/user/${reply.author.loginname}`" class="replies-item__author">{{
+              <NuxtLink :to="`/user/${reply.author.loginname}`" class="replies-item__author">{{
                 reply.author.loginname
-              }}</a>
-              <a class="replies-item__floor" :href="`#${reply.id}`">{{ replyIndex + 1 }}楼</a>
+              }}</NuxtLink>
+              <NuxtLink class="replies-item__floor" :to="`#${reply.id}`"
+                >{{ replyIndex + 1 }}楼</NuxtLink
+              >
               <span class="replies-item__time">{{ reply.create_at | timeago }}</span>
               <div class="replies-item__opts">
                 <i class="replies-item__reply iconfont icon-reply-fill"></i>

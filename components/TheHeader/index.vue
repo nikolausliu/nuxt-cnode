@@ -1,10 +1,10 @@
 <template>
   <header class="header">
     <div class="inner">
-      <a class="logo" href="/">
+      <NuxtLink class="logo" to="/">
         <img src="~/assets/imgs/logo.svg" alt="logo" />
-      </a>
-      <a href="/login">登录</a>
+      </NuxtLink>
+      <NuxtLink to="/login">登录</NuxtLink>
     </div>
   </header>
 </template>

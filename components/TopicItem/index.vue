@@ -2,14 +2,14 @@
   <div class="topic-item">
     <template v-if="pending"> </template>
     <template v-else>
-      <a :href="`/user/${author.loginname}`" class="avatar">
+      <NuxtLink :to="`/user/${author.loginname}`" class="avatar">
         <BaseImage :src="author.avatar_url" :img-style="{ borderRadius: '4px' }" />
-      </a>
+      </NuxtLink>
       <div class="right">
-        <a class="title" :href="`/topic/${id}`">
+        <NuxtLink class="title" :to="`/topic/${id}`">
           <span v-if="top" class="tag tag-top">置顶</span
           ><span v-if="good" class="tag tag-good">精华</span>{{ title }}
-        </a>
+        </NuxtLink>
         <div class="info">
           <template v-if="tab">
             <span class="tag">{{ tab | tag }}</span>
