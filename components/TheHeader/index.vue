@@ -4,6 +4,7 @@
       <a class="logo" href="/">
         <img src="~/assets/imgs/logo.svg" alt="logo" />
       </a>
+      <a href="/login">登录</a>
     </div>
   </header>
 </template>

@@ -3,12 +3,6 @@
     <template v-if="pending"> </template>
     <template v-else>
       <a :href="`/user/${author.loginname}`" class="avatar">
-        <!-- <img :src="author.avatar_url" alt="avatar" /> -->
-        <!-- <el-image :src="author.avatar_url" class="img">
-          <div slot="error" class="img-error">
-            <i class="el-icon-picture-outline"></i>
-          </div>
-        </el-image> -->
         <BaseImage :src="author.avatar_url" :img-style="{ borderRadius: '4px' }" />
       </a>
       <div class="right">
