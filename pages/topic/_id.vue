@@ -32,14 +32,17 @@
       <div class="replies common-board">
         <div class="replies-header">
           <span>{{ info.replies.length }}条回复</span>
-          <span>·</span>
-          <span
-            >由
-            <NuxtLink :to="`/user/${info.replies[info.replies.length - 1].author.loginname}`">{{
-              info.replies[info.replies.length - 1].author.loginname
-            }}</NuxtLink>
-            最后回复于 {{ info.replies[info.replies.length - 1].create_at | dateTimeFormat }}</span
-          >
+          <template v-if="info.replies.length">
+            <span>·</span>
+            <span
+              >由
+              <NuxtLink :to="`/user/${info.replies[info.replies.length - 1].author.loginname}`">{{
+                info.replies[info.replies.length - 1].author.loginname
+              }}</NuxtLink>
+              最后回复于
+              {{ info.replies[info.replies.length - 1].create_at | dateTimeFormat }}</span
+            >
+          </template>
         </div>
         <div
           v-for="(reply, replyIndex) in info.replies"
@@ -101,6 +104,7 @@ export default {
       },
     }
   },
+
   async fetch() {
     try {
       const { id } = this.$route.params

@@ -38,7 +38,16 @@ export default {
       }
       login(this.$axios, { accesstoken: this.accesstoken })
         .then((res) => {
-          console.log('res', res)
+          if (res.data.success) {
+            const payload = {
+              accesstoken: this.accesstoken,
+              id: res.data.id,
+              loginname: res.data.loginname,
+              avatar_url: res.data.avatar_url,
+            }
+            this.$store.commit('user/login', payload)
+            this.$router.push('/')
+          }
         })
         .catch((err) => {
           console.dir(err)
