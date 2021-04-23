@@ -78,6 +78,5 @@ jobs:
             cd /home/niko/nuxt-cnode
             wget https://github.com/nikolausliu/nuxt-cnode/releases/latest/download/release.tgz -O release.tgz
             tar zxvf release.tgz
-            nvm use 12.6.0
             npm install --production
             pm2 reload ecosystem.config.js
