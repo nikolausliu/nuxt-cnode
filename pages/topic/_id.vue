@@ -183,7 +183,7 @@ export default {
     },
   },
 
-  fetchOnServer: false,
+  fetchOnServer: true,
 }
 </script>
 
