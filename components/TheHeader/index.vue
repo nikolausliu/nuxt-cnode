@@ -50,7 +50,7 @@ export default {
       }
     },
     goUser() {
-      this.$router.push(`user/${this.loginname}`)
+      this.$router.push(`/user/${this.loginname}`)
     },
     logout() {
       this.$store.commit('user/logout')
