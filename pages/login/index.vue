@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { login } from '@/api'
+import { validateToken } from '@/api'
 export default {
   name: 'Login',
 
@@ -36,7 +36,7 @@ export default {
         this.$message.error('请填写accesstoken')
         return false
       }
-      login(this.$axios, { accesstoken: this.accesstoken })
+      validateToken(this.$axios, { accesstoken: this.accesstoken })
         .then((res) => {
           if (res.data.success) {
             const payload = {

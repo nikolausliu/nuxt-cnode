@@ -14,6 +14,18 @@ export const getUserInfo = (axios, loginname) => {
   return axios.get(`/user/${loginname}`)
 }
 
-export const login = (axios, params) => {
+export const validateToken = (axios, params) => {
   return axios.post('/accesstoken', params)
+}
+
+export const collectTopic = (axios, params) => {
+  return axios.post('/topic_collect/collect', params)
+}
+
+export const uncollectTopic = (axios, params) => {
+  return axios.post('/topic_collect/de_collect', params)
+}
+
+export const updownTopic = (axios, id, params) => {
+  return axios.post(`/reply/${id}/ups`, params)
 }

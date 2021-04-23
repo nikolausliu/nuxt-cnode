@@ -25,6 +25,14 @@
             <span>{{ info.visit_count }}次点击</span>
             <span>·</span>
             <span class="tag">{{ info.tab | tag }}</span>
+            <template v-if="accesstoken">
+              <span>·</span>
+              <i
+                class="iconfont"
+                :class="info.is_collect ? 'icon-favorites-fill' : 'icon-favorites'"
+                @click="switchCollect"
+              ></i>
+            </template>
           </div>
         </div>
         <div class="topic-content markdown-body" v-html="info.content"></div>
@@ -58,14 +66,20 @@
               <NuxtLink :to="`/user/${reply.author.loginname}`" class="replies-item__author">{{
                 reply.author.loginname
               }}</NuxtLink>
+              <span>·</span>
               <NuxtLink class="replies-item__floor" :to="`#${reply.id}`"
                 >{{ replyIndex + 1 }}楼</NuxtLink
               >
+              <span>·</span>
               <span class="replies-item__time">{{ reply.create_at | timeago }}</span>
               <div class="replies-item__opts">
-                <i class="replies-item__reply iconfont icon-reply-fill"></i>
+                <i v-if="accesstoken" class="replies-item__reply iconfont icon-reply-fill"></i>
                 <div class="replies-item__upvote">
-                  <i class="iconfont icon-good"></i>
+                  <i
+                    class="iconfont"
+                    :class="reply.is_uped ? 'icon-good-fill' : 'icon-good'"
+                    @click="switchUpdown(reply.id, replyIndex)"
+                  ></i>
                   <span>{{ reply.ups.length }}</span>
                 </div>
               </div>
@@ -79,8 +93,10 @@
 </template>
 
 <script>
-import { getTopicDetail } from '@/api'
+import { getTopicDetail, collectTopic, uncollectTopic, updownTopic } from '@/api'
 export default {
+  name: 'Topic',
+
   data() {
     return {
       info: {
@@ -108,7 +124,11 @@ export default {
   async fetch() {
     try {
       const { id } = this.$route.params
-      const { success, data } = (await getTopicDetail(this.$axios, id)).data
+      const params = {}
+      if (this.accesstoken) {
+        params.accesstoken = this.accesstoken
+      }
+      const { success, data } = (await getTopicDetail(this.$axios, id, params)).data
       if (success) {
         this.info = data
       }
@@ -116,6 +136,53 @@ export default {
       console.log(e)
     }
   },
+
+  computed: {
+    accesstoken() {
+      return this.$store.state.user.accesstoken
+    },
+  },
+
+  methods: {
+    switchCollect() {
+      const params = {
+        topic_id: this.info.id,
+        accesstoken: this.accesstoken,
+      }
+      if (this.info.is_collect) {
+        uncollectTopic(this.$axios, params).then((res) => {
+          console.log('res', res)
+          if (res.data.success) {
+            this.info.is_collect = false
+          }
+        })
+      } else {
+        collectTopic(this.$axios, params).then((res) => {
+          console.log('res', res)
+          if (res.data.success) {
+            this.info.is_collect = true
+          }
+        })
+      }
+    },
+
+    switchUpdown(id, index) {
+      updownTopic(this.$axios, id, { accesstoken: this.accesstoken }).then((res) => {
+        console.log('res', res)
+        const { success, action } = res.data
+        if (success) {
+          if (action === 'up') {
+            this.info.replies[index].is_uped = true
+            this.info.replies[index].ups.push(this.$store.state.user.id)
+          } else {
+            this.info.replies[index].is_uped = false
+            this.info.replies[index].ups.pop()
+          }
+        }
+      })
+    },
+  },
+
   fetchOnServer: false,
 }
 </script>
@@ -158,6 +225,9 @@ export default {
   &-extra {
     font-size: 12px;
     color: var(--color-gray);
+    .iconfont {
+      cursor: pointer;
+    }
   }
   &-content {
     padding: 10px;
