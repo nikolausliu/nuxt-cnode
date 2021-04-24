@@ -42,7 +42,7 @@ jobs:
         run: npm run test
 
       - run: npm run build
-      - run: tar -zcvf release.tgz .nuxt nuxt.config.js package.json package-lock.json ecosystem.config.js
+      - run: tar -zcvf release.tgz .nuxt static nuxt.config.js package.json package-lock.json ecosystem.config.js
 
       # 发布 Release
       - name: Create Release
