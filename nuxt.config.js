@@ -28,7 +28,7 @@ export default {
     '@/plugins/vueConterntPlaceholders',
     '@/plugins/axios',
     '@/plugins/filters',
-    // '@/plugins/persistedState',
+    '@/plugins/persistedState',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
