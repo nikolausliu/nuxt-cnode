@@ -100,6 +100,7 @@ export default {
   padding: 10px;
   border-bottom: 1px solid #eee;
   .avatar {
+    flex-shrink: 0;
     margin-right: 10px;
     width: 48px;
     height: 48px;
@@ -118,26 +119,34 @@ export default {
   }
   .right {
     .title {
-      display: flex;
-      align-items: center;
-      line-height: 26px;
-      margin-bottom: 2px;
+      // display: flex;
+      // align-items: center;
+      // margin-bottom: 2px;
+      display: block;
+      line-height: 22px;
+      margin-bottom: 6px;
       .tag {
-        padding: 4px;
+        display: inline-block;
+        vertical-align: top;
+        padding: 3px 4px;
         line-height: 12px;
         font-size: 12px;
         border-radius: 2px;
-        margin-right: 5px;
+        // margin-right: 5px;
+        margin: 1px 5px 1px 0;
         background: #334;
         color: #fff;
       }
     }
     .info {
-      height: 20px;
+      line-height: 20px;
       font-size: 12px;
       color: #ccc;
       .tag {
-        padding: 4px;
+        display: inline-block;
+        vertical-align: top;
+        padding: 3px 4px;
+        margin: 1px 0;
         line-height: 12px;
         border-radius: 2px;
         background-color: #f5f5f5;
