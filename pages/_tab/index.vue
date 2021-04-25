@@ -27,6 +27,7 @@ export default {
       list: [],
     }
   },
+
   async fetch() {
     const { tab } = this.$route.params
     const { page = 1 } = this.$route.query
@@ -39,5 +40,17 @@ export default {
       console.log(e)
     }
   },
+
+  fetchOnServer: true,
+
+  watch: {
+    // watchQuery doesn't work,and i don't know why
+    // so i use watch as a fallback and it works
+    '$route.query.page'() {
+      this.$fetch()
+    },
+  },
+
+  watchQuery: true,
 }
 </script>
