@@ -12,9 +12,12 @@
     </div>
     <div v-if="$fetchState.error">An Error Occured...</div>
     <div v-else class="posts">
-      <TopicItem v-for="item in list" :key="item.id" v-bind="item" />
+      <template v-if="list.length">
+        <TopicItem v-for="item in list" :key="item.id" v-bind="item" />
+      </template>
+      <div v-else class="empty"> 没有话题了 </div>
     </div>
-    <ThePagination />
+    <ThePagination :next-disabled="!list.length" />
   </div>
 </template>
 
@@ -54,3 +57,11 @@ export default {
   watchQuery: true,
 }
 </script>
+
+<style lang="less" scoped>
+.empty {
+  padding: 10px;
+  font-size: 14px;
+  color: var(--color-gray);
+}
+</style>
