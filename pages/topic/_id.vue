@@ -37,6 +37,7 @@
         </div>
         <div class="topic-content markdown-body" v-html="info.content"></div>
       </div>
+
       <div class="replies common-board">
         <div class="replies-header">
           <span>{{ info.replies.length }}条回复</span>
@@ -73,7 +74,11 @@
               <span>·</span>
               <span class="replies-item__time">{{ reply.create_at | timeago }}</span>
               <div class="replies-item__opts">
-                <i v-if="accesstoken" class="replies-item__reply iconfont icon-reply-fill"></i>
+                <i
+                  v-if="accesstoken"
+                  class="replies-item__reply iconfont icon-reply-fill"
+                  @click="mentionOn(reply)"
+                ></i>
                 <div class="replies-item__upvote">
                   <i
                     class="iconfont"
@@ -88,12 +93,35 @@
           </div>
         </div>
       </div>
+
+      <div class="add-reply common-board">
+        <div class="add-reply__header">
+          <div class="add-reply__title">添加一条新回复</div>
+        </div>
+        <div class="add-reply__body">
+          <el-input
+            id="replyContent"
+            ref="replyContent"
+            v-model="content"
+            type="textarea"
+            :autosize="{ minRows: 6 }"
+            :placeholder="replyPlaceholder"
+          >
+          </el-input>
+          <div class="add-reply__footer">
+            <el-button size="mini" type="primary" :disabled="content === ''" @click="submit"
+              >回复</el-button
+            >
+            <el-button v-if="mentionId" size="mini" @click="cancelMention">取消@</el-button>
+          </div>
+        </div>
+      </div>
     </template>
   </div>
 </template>
 
 <script>
-import { getTopicDetail, collectTopic, uncollectTopic, updownTopic } from '@/api'
+import { getTopicDetail, collectTopic, uncollectTopic, updownTopic, replyTopic } from '@/api'
 export default {
   name: 'Topic',
 
@@ -118,6 +146,9 @@ export default {
         replies: [],
         is_collect: false,
       },
+      content: '',
+      mentionId: '',
+      mentionName: '',
     }
   },
 
@@ -140,6 +171,9 @@ export default {
   computed: {
     accesstoken() {
       return this.$store.state.user.accesstoken
+    },
+    replyPlaceholder() {
+      return this.mentionName ? `回复 ${this.mentionName}` : '支持markdown格式哦'
     },
   },
 
@@ -180,6 +214,56 @@ export default {
           }
         }
       })
+    },
+
+    focus() {
+      this.$refs.replyContent.focus()
+    },
+
+    mentionOn(reply) {
+      this.mentionId = reply.id
+      this.mentionName = reply.author.loginname
+      this.focus()
+    },
+
+    cancelMention() {
+      this.mentionId = ''
+      this.mentionName = ''
+      this.focus()
+    },
+
+    parseMention(content) {
+      if (content === '') return ''
+      if (!this.mentionName) return content
+      const mention = `@${this.mentionName} `
+      return `${mention}\n${content}`
+    },
+
+    submit() {
+      if (!this.content) {
+        this.$message.error('还没有输入回复内容哦')
+      }
+      const content = this.parseMention(this.content)
+      const params = {
+        content,
+      }
+      if (this.accesstoken) {
+        params.accesstoken = this.accesstoken
+      }
+      if (this.mentionId) {
+        params.reply_id = this.mentionId
+      }
+      replyTopic(this.$axios, this.info.id, params)
+        .then((res) => {
+          this.cancelMention()
+          this.content = ''
+          this.$fetch()
+        })
+        .catch((err) => {
+          console.log(err)
+          this.cancelMention()
+          this.content = ''
+        })
     },
   },
 
@@ -281,6 +365,23 @@ export default {
           cursor: pointer;
         }
       }
+    }
+  }
+
+  .add-reply {
+    margin-top: 20px;
+    &__header {
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 12px;
+      color: var(--color-gray);
+    }
+    &__body {
+      padding: 10px;
+    }
+    &__footer {
+      display: flex;
+      margin-top: 10px;
     }
   }
 }

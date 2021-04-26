@@ -29,3 +29,7 @@ export const uncollectTopic = (axios, params) => {
 export const updownTopic = (axios, id, params) => {
   return axios.post(`/reply/${id}/ups`, params)
 }
+
+export const replyTopic = (axios, id, params) => {
+  return axios.post(`/topic/${id}/replies `, params)
+}
