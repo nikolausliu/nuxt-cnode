@@ -2,15 +2,11 @@
   <div class="topic">
     <template v-if="$fetchState.pending">
       <div class="common-board topic-skeleton">
-        <div class="header">
-          <div class="skeleton title"></div>
-          <div class="skeleton extra"></div>
-        </div>
-        <div class="content">
-          <div v-for="item in 20" :key="item" class="paragraph">
-            <div class="skeleton"></div>
-          </div>
-        </div>
+        <content-placeholders>
+          <content-placeholders-heading />
+          <content-placeholders-img />
+          <content-placeholders-text :lines="20" />
+        </content-placeholders>
       </div>
     </template>
 
@@ -30,14 +26,6 @@
             <span>{{ info.visit_count }}次点击</span>
             <span>·</span>
             <span class="tag">{{ info.tab | tag }}</span>
-            <!-- <template v-if="accesstoken">
-              <span>·</span>
-              <i
-                class="iconfont"
-                :class="info.is_collect ? 'icon-favorites-fill' : 'icon-favorites'"
-                @click="switchCollect"
-              ></i>
-            </template> -->
           </div>
         </div>
         <div class="topic-content markdown-body" v-html="info.content"></div>
@@ -83,23 +71,21 @@
               >
               <span>·</span>
               <span class="replies-item__time">{{ reply.create_at | timeago }}</span>
-              <div class="replies-item__opts">
-                <i
-                  v-if="accesstoken"
-                  class="replies-item__reply iconfont icon-reply-fill"
-                  @click="mentionOn(reply)"
-                ></i>
-                <div class="replies-item__upvote">
-                  <i
-                    class="iconfont"
-                    :class="reply.is_uped ? 'icon-good-fill' : 'icon-good'"
-                    @click="switchUpdown(reply.id, replyIndex)"
-                  ></i>
-                  <span>{{ reply.ups.length }}</span>
-                </div>
-              </div>
             </div>
             <div class="replies-item__content markdown-body" v-html="reply.content"></div>
+            <div class="replies-item__action">
+              <span class="replies-item__action-item">
+                <i
+                  class="iconfont"
+                  :class="reply.is_uped ? 'icon-good-fill' : 'icon-good'"
+                  @click="switchUpdown(reply.id, replyIndex)"
+                ></i>
+                <span>{{ reply.ups.length }}</span>
+              </span>
+              <span class="replies-item__action-item" @click="mentionOn(reply)">
+                <i class="iconfont icon-comment-fill"></i>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -308,28 +294,7 @@ export default {
 <style lang="less" scoped>
 .topic {
   &-skeleton {
-    .header {
-      padding: 10px;
-      border-bottom: 1px solid var(--border-color);
-      .title {
-        width: 50%;
-        height: 30px;
-        margin-bottom: 5px;
-      }
-      .extra {
-        height: 16px;
-      }
-    }
-    .content {
-      padding: 10px;
-      .paragraph {
-        padding: 2px 0;
-        margin-bottom: 16px;
-        .skeleton {
-          height: 24px;
-        }
-      }
-    }
+    padding: 10px;
   }
 
   &-error {
@@ -407,19 +372,16 @@ export default {
         font-size: 12px;
         color: var(--color-fade);
       }
-      &__opts {
+      &__action {
         display: flex;
+        justify-content: flex-end;
         align-items: center;
-        float: right;
-      }
-      &__reply {
-        cursor: pointer;
-        margin-right: 5px;
-      }
-      &__upvote {
-        display: flex;
-        align-items: center;
-        i {
+        font-size: 12px;
+        color: var(--color-fade);
+        &-item {
+          display: flex;
+          align-items: center;
+          margin-left: 20px;
           cursor: pointer;
         }
       }
