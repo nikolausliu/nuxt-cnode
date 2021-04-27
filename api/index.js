@@ -33,3 +33,7 @@ export const updownTopic = (axios, id, params) => {
 export const replyTopic = (axios, id, params) => {
   return axios.post(`/topic/${id}/replies `, params)
 }
+
+export const postTopic = (axios, params) => {
+  return axios.post(`/topics`, params)
+}

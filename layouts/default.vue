@@ -4,9 +4,9 @@
     <section class="main">
       <Nuxt />
     </section>
-    <div v-if="accesstoken" class="post" title="发布话题">
+    <NuxtLink v-if="accesstoken" to="/topic/create" class="create-button" title="发布话题">
       <i class="el-icon-plus"></i>
-    </div>
+    </NuxtLink>
     <el-backtop :right="24" :bottom="24" title="回到顶部"></el-backtop>
   </div>
 </template>
@@ -37,7 +37,7 @@ export default {
   border-radius: 2px;
   transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
 }
-.post {
+.create-button {
   position: fixed;
   right: 24px;
   bottom: 76px;
@@ -55,6 +55,7 @@ export default {
   cursor: pointer;
   &:hover {
     background: #f2f6fc;
+    text-decoration: none;
   }
 }
 </style>
