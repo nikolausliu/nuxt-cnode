@@ -239,11 +239,19 @@ export default {
       return `${mention}\n${content}`
     },
 
+    parseTail(content) {
+      if (content === '') return ''
+      return (
+        content + '\n\n' + '>来自炫酷的 [nuxt-cnode](https://github.com/nikolausliu/nuxt-cnode)'
+      )
+    },
+
     submit() {
       if (!this.content) {
         this.$message.error('还没有输入回复内容哦')
       }
-      const content = this.parseMention(this.content)
+      let content = this.parseMention(this.content)
+      content = this.parseTail(content)
       const params = {
         content,
       }
