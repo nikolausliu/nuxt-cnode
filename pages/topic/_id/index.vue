@@ -13,6 +13,11 @@
         </div>
       </div>
     </template>
+
+    <template v-else-if="$fetchState.error">
+      <div class="common-board topic-error"> 此话题不存在或已被删除 </div>
+    </template>
+
     <template v-else>
       <div class="topic-info common-board">
         <div class="topic-header">
@@ -25,20 +30,25 @@
             <span>{{ info.visit_count }}次点击</span>
             <span>·</span>
             <span class="tag">{{ info.tab | tag }}</span>
-            <template v-if="accesstoken">
+            <!-- <template v-if="accesstoken">
               <span>·</span>
               <i
                 class="iconfont"
                 :class="info.is_collect ? 'icon-favorites-fill' : 'icon-favorites'"
                 @click="switchCollect"
               ></i>
-            </template>
+            </template> -->
           </div>
         </div>
         <div class="topic-content markdown-body" v-html="info.content"></div>
+        <div class="topic-actions">
+          <span @click="switchCollect">{{ info.is_collect ? '取消收藏' : '收藏' }}</span>
+          <NuxtLink v-if="isOwner" :to="`/topic/${info.id}/edit`">编辑</NuxtLink>
+          <span v-if="isOwner" @click="handleDelete">删除</span>
+        </div>
       </div>
 
-      <div class="replies common-board">
+      <div v-if="info.replies.length" class="replies common-board">
         <div class="replies-header">
           <span>{{ info.replies.length }}条回复</span>
           <template v-if="info.replies.length">
@@ -121,7 +131,14 @@
 </template>
 
 <script>
-import { getTopicDetail, collectTopic, uncollectTopic, updownTopic, replyTopic } from '@/api'
+import {
+  getTopicDetail,
+  collectTopic,
+  uncollectTopic,
+  deleteTopic,
+  updownTopic,
+  replyTopic,
+} from '@/api'
 export default {
   name: 'Topic',
 
@@ -153,18 +170,14 @@ export default {
   },
 
   async fetch() {
-    try {
-      const { id } = this.$route.params
-      const params = {}
-      if (this.accesstoken) {
-        params.accesstoken = this.accesstoken
-      }
-      const { success, data } = (await getTopicDetail(this.$axios, id, params)).data
-      if (success) {
-        this.info = data
-      }
-    } catch (e) {
-      console.log(e)
+    const { id } = this.$route.params
+    const params = {}
+    if (this.accesstoken) {
+      params.accesstoken = this.accesstoken
+    }
+    const { success, data } = (await getTopicDetail(this.$nuxt.$axios, id, params)).data
+    if (success) {
+      this.info = data
     }
   },
 
@@ -175,6 +188,13 @@ export default {
     replyPlaceholder() {
       return this.mentionName ? `回复 ${this.mentionName}` : '支持markdown格式哦'
     },
+    isOwner() {
+      return this.info.author_id === this.$store.state.user.id
+    },
+  },
+
+  mounted() {
+    console.log(this.$fetchState)
   },
 
   methods: {
@@ -198,6 +218,12 @@ export default {
           }
         })
       }
+    },
+
+    handleDelete() {
+      deleteTopic(this.$axios, this.info.id, { accesstoken: this.accesstoken }).then(() => {
+        this.$nuxt.redirect(`/`)
+      })
     },
 
     switchUpdown(id, index) {
@@ -306,6 +332,12 @@ export default {
     }
   }
 
+  &-error {
+    padding: 10px;
+    font-size: 14px;
+    color: var(--color-gray);
+  }
+
   &-header {
     padding: 10px;
     border-bottom: 1px solid var(--border-color);
@@ -320,9 +352,27 @@ export default {
     .iconfont {
       cursor: pointer;
     }
+    .tag {
+      padding: 3px 4px;
+      border-radius: 2px;
+      background-color: #f5f5f5;
+    }
   }
   &-content {
     padding: 10px;
+  }
+  &-actions {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid var(--border-color);
+    font-size: 12px;
+    span,
+    a {
+      margin-right: 10px;
+      cursor: pointer;
+      color: var(--color-gray);
+    }
   }
 
   .replies {

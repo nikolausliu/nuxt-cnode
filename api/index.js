@@ -37,3 +37,11 @@ export const replyTopic = (axios, id, params) => {
 export const postTopic = (axios, params) => {
   return axios.post(`/topics`, params)
 }
+
+export const updateTopic = (axios, params) => {
+  return axios.post(`/topics/update`, params)
+}
+
+export const deleteTopic = (axios, id, params) => {
+  return axios.post(`/topic/${id}/update`, params)
+}
