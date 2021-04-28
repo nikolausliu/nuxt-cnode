@@ -32,7 +32,7 @@
         <div class="topic-actions">
           <span @click="switchCollect">{{ info.is_collect ? '取消收藏' : '收藏' }}</span>
           <NuxtLink v-if="isOwner" :to="`/topic/${info.id}/edit`">编辑</NuxtLink>
-          <span v-if="isOwner" @click="handleDelete">删除</span>
+          <!-- <span v-if="isOwner" @click="handleDelete">删除</span> -->
         </div>
       </div>
 
@@ -207,9 +207,19 @@ export default {
     },
 
     handleDelete() {
-      deleteTopic(this.$axios, this.info.id, { accesstoken: this.accesstoken }).then(() => {
-        this.$nuxt.redirect(`/`)
+      this.$confirm('确定要删除此话题吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
+        .then(() => {
+          deleteTopic(this.$axios, this.info.id, { accesstoken: this.accesstoken }).then(() => {
+            this.$nuxt.redirect(`/`)
+          })
+        })
+        .catch(() => {
+          console.log('取消删除')
+        })
     },
 
     switchUpdown(id, index) {
@@ -365,6 +375,8 @@ export default {
       }
       &__info {
         flex-grow: 1;
+        // fix: 代码块会超出最大长度
+        width: calc(100% - 58px);
       }
       &__top {
         line-height: 20px;

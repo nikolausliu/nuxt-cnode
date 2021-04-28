@@ -43,5 +43,5 @@ export const updateTopic = (axios, params) => {
 }
 
 export const deleteTopic = (axios, id, params) => {
-  return axios.post(`/topic/${id}/update`, params)
+  return axios.post(`/topic/${id}/delete`, params)
 }
