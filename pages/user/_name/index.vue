@@ -9,14 +9,14 @@
       <div class="profile-item score">积分: {{ info.score }}</div>
       <div class="profile-item created-at">账号创建于: {{ info.create_at | dateTimeFormat }}</div>
       <div class="socials">
-        <NuxtLink
+        <a
           v-if="info.githubUsername"
-          :to="`https://github.com/${info.githubUsername}`"
+          :href="`https://github.com/${info.githubUsername}`"
           target="_blank"
           class="socials-item"
         >
           <i class="iconfont icon-github-fill"></i>
-        </NuxtLink>
+        </a>
       </div>
     </div>
     <div class="activities">
