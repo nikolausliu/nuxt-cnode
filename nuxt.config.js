@@ -1,3 +1,5 @@
+const routerBase = '/cnode/'
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -12,7 +14,7 @@ export default {
         content: 'nodejs, node, express, connect, socket.io, nuxt.js',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: `${routerBase}favicon.ico` }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -70,5 +72,9 @@ export default {
   server: {
     host: '0.0.0.0',
     port: 8000,
+  },
+
+  router: {
+    base: routerBase,
   },
 }
